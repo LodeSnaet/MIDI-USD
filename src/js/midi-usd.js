@@ -44,13 +44,14 @@ function handleMIDIMessage(event) {
         }
 
         console.log(playedNotes); // Controleer de array-inhoud in de console
+        updateAbcNotation(abcNote);
 
         // Optioneel: Update de weergave op de pagina
         document.querySelector('.js-note').innerText = abcNote;
     }
 }
 
-export const midiToAbc = function(midiNotes) {
+const midiToAbc = function(midiNotes) {
     const noteMap = {
         60: 'C', 61: 'C#', 62: 'D', 63: 'D#', 64: 'E', 65: 'F', 66: 'F#',
         67: 'G', 68: 'G#', 69: 'A', 70: 'A#', 71: 'B'
@@ -66,30 +67,51 @@ export const midiToAbc = function(midiNotes) {
     }
 };
 
-console.log(playedNotes);
+// const updateAbcNotation = (abcNotesArray) => {
+//     // Controleer of er noten zijn om weer te geven
+//     const notation = abcNotesArray.length > 0 ? abcNotesArray.join(' ') : 'z';
+//
+//     // Dynamisch aanvullen van de volledige ABC-notatie
+//     const abcNotation = `
+// X: 1
+// T: Dynamic MIDI Notes
+// M: 4/4
+// L: 1/4
+// K: C
+// V: RH clef=treble
+// [V: RH] ${notation}
+// `;
+//
+//     // Render de ABCJS-notatie
+//     ABCJS.renderAbc("abc-sheet", abcNotation);
+// };
 
-let abcNotationTemplate = `
+const updateAbcNotation = (abcNotes) => {
+    // Controleer of abcNotes een array is
+    let notation = '';
+
+    if (Array.isArray(abcNotes)) {
+        // Als het een array is, verbind de noten met een spatie
+        notation += abcNotes.join(' ');
+    } else {
+        // Als het geen array is, gebruik de string direct
+        notation += abcNotes || 'z'; // Geef "z" (rust) weer als niets is doorgegeven
+    }
+
+    // Maak de volledige ABC-notatie
+    const abcNotation = `
 X: 1
 T: Dynamic MIDI Notes
 M: 4/4
 L: 1/4
 K: C
 V: RH clef=treble
-[V: RH] A B C | D E F | G A B | C D E |
+[V: RH] ${notation}
 `;
 
-// ABCJS-notatie dynamisch invullen met de gespeelde noten
-const updateAbcNotation = () => {
-    // Voeg de gespeelde noten samen in ABC-notatie
-    const notation = playedNotes.join(' ');
-
-    // Combineer de dynamische noten met de statische template
-    const abcNotation = abcNotationTemplate + notation;
-
-    // Render de bijgewerkte notatie via ABCJS
+    // Render de ABC-notatie
     ABCJS.renderAbc("abc-sheet", abcNotation);
 };
-
 const init = function() {
     playedNotes = []
     updateAbcNotation();
