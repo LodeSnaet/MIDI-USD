@@ -163,8 +163,21 @@ function midiToAbc(midiNote) {
 
 // Update de ABC-notatie en render deze op de pagina
 function updateAbcNotation() {
+    // Voeg een regel beëindiging \n na elke 4 maatstrepen toe
+    const maxBarsPerLine = 4;
+    let measureCount = 0;
+    const notationWithLineBreaks = playedNotes
+        .map(note => {
+            if (note === "|") {
+                measureCount++;
+                if (measureCount % maxBarsPerLine === 0) {
+                    return note + "\n"; // Voeg een nieuwe regel toe
+                }
+            }
+            return note;
+        })
+        .join(" ");
 
-    const notation = playedNotes.join(" ");
     const abcNotation = `
 X: 1
 T: Live MIDI-to-ABC Notation
@@ -172,7 +185,7 @@ M: ${meter[0]}/${meter[1]}
 L: 1/${meter[1]}
 Q: 1/${meter[1]}=${tempo}
 K: C
-[V: RH] ${notation}
+[V: RH] ${notationWithLineBreaks}
     `;
     ABCJS.renderAbc("abc-sheet", abcNotation);
     console.log("ABC Notatie bijgewerkt:\n", abcNotation);
