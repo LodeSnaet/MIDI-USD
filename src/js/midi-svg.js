@@ -140,25 +140,25 @@ function durationToBeats(duration) {
     }
 }
 
-// Converteert MIDI naar ABC-notatie (inclusief octaafbeheer)
 function midiToAbc(midiNote) {
     const noteMap = {
         0: "C", 1: "^C", 2: "D", 3: "^D", 4: "E", 5: "F", 6: "^F", 7: "G",
-        8: "^G", 9: "A", 10: "^A", 11: "B",
+        8: "^G", 9: "A", 10: "^A", 11: "B"
     };
 
-    const baseNote = midiNote % 12;
-    const octave = Math.floor(midiNote / 12) - 4; // Midden-C (C4) als referentie octaaf
+    const baseNote = midiNote % 12; // Haal de chromatische noot op uit de map
+    const octave = Math.floor(midiNote / 12) - 4; // Bereken welk octaaf het is
 
-    let abcNote = noteMap[baseNote];
+    let abcNote = noteMap[baseNote]; // Vind de juiste noot in de map
 
+    // Voeg octaafinformatie toe (apostrofs voor hoog, komma's voor laag)
     if (octave > 0) {
-        abcNote += "'".repeat(octave); // Voeg apostrofs toe voor hogere octaven
+        abcNote += "'".repeat(octave); // Toevoegen voor hogere octaven
     } else if (octave < 0) {
-        abcNote += ",".repeat(Math.abs(octave)); // Voeg komma's toe voor lagere octaven
+        abcNote += ",".repeat(Math.abs(octave)); // Toevoegen voor lagere octaven
     }
 
-    return abcNote;
+    return abcNote; // Geef de geconverteerde noot terug
 }
 
 // Update de ABC-notatie en render deze op de pagina
