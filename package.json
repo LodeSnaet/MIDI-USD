@@ -1,19 +1,25 @@
 {
-  "name": "untitled4",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "MIDI-USD",
+  "version": "1.0.0",
+  "description": "This project will transcribe midi to sheetmusic and then being able to export as usd files",
+  "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build --emptyOutDir",
     "preview": "vite preview"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "sass-embedded": "^1.81.0",
-    "vite": "^6.0.1"
+    "autoprefixer": "^10.4.20",
+    "file-loader": "^6.2.0",
+    "sass": "^1.81.0",
+    "vite": "^5.4.11"
   },
   "dependencies": {
-    "autoprefixer": "^10.4.20",
+    "@popperjs/core": "^2.11.8",
+    "abcjs": "^6.4.4",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3"
   }
